@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 
 namespace BlazorAuth0Bff.Server
@@ -48,29 +49,20 @@ namespace BlazorAuth0Bff.Server
                 options.Cookie.SameSite = SameSiteMode.Lax;
             })
             .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options => {
-                // Set the authority to your Auth0 domain
                 options.Authority = $"https://{Configuration["Auth0:Domain"]}";
-
-                // Configure the Auth0 Client ID and Client Secret
                 options.ClientId = Configuration["Auth0:ClientId"];
                 options.ClientSecret = Configuration["Auth0:ClientSecret"];
-
-                // Set response type to code
                 options.ResponseType = OpenIdConnectResponseType.Code;
-
-                // Configure the scope
                 options.Scope.Clear();
                 options.Scope.Add("openid");
-
-                // Set the callback path, so Auth0 will call back to http://localhost:3000/callback
-                // Also ensure that you have added the URL as an Allowed Callback URL in your Auth0 dashboard
+                options.Scope.Add("profile");
+                options.Scope.Add("email");
                 options.CallbackPath = new PathString("/signin-oidc");
-
-                // Configure the Claims Issuer to be Auth0
                 options.ClaimsIssuer = "Auth0";
-
-                // Saves tokens to the AuthenticationProperties
                 options.SaveTokens = true;
+                options.UsePkce = true;
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.TokenValidationParameters.NameClaimType = "name";
 
                 options.Events = new OpenIdConnectEvents
                 {
@@ -114,6 +106,9 @@ namespace BlazorAuth0Bff.Server
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // IdentityModelEventSource.ShowPII = true;
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
