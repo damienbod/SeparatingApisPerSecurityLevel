@@ -45,7 +45,7 @@ namespace BlazorAuth0Bff.Server
             .AddCookie(options =>
             {
                 options.Cookie.Name = "__Host-BlazorServer";
-                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.SameSite = SameSiteMode.Lax;
             })
             .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options => {
                 // Set the authority to your Auth0 domain
