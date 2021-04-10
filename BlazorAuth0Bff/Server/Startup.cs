@@ -42,7 +42,11 @@ namespace BlazorAuth0Bff.Server
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddCookie()
+            .AddCookie(options =>
+            {
+                options.Cookie.Name = "__Host-BlazorServer";
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            })
             .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options => {
                 // Set the authority to your Auth0 domain
                 options.Authority = $"https://{Configuration["Auth0:Domain"]}";
