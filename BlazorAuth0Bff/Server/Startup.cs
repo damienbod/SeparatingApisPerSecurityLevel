@@ -39,7 +39,8 @@ namespace BlazorAuth0Bff.Server
             services.AddOptions();
 
             // Add authentication services
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
@@ -48,7 +49,8 @@ namespace BlazorAuth0Bff.Server
                 options.Cookie.Name = "__Host-BlazorServer";
                 options.Cookie.SameSite = SameSiteMode.Lax;
             })
-            .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options => {
+            .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+            {
                 options.Authority = $"https://{Configuration["Auth0:Domain"]}";
                 options.ClientId = Configuration["Auth0:ClientId"];
                 options.ClientSecret = Configuration["Auth0:ClientSecret"];
