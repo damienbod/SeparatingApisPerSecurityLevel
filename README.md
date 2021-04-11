@@ -2,7 +2,7 @@
 
 ## Blogs
 
-Securing Blazor Web assembly using cookies and Auth0
+Securing Blazor Web assembly using Cookies and Auth0
 
 ## Links
 
