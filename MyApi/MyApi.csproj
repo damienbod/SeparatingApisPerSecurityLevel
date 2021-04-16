@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <WebProject_DirectoryAccessLevelKey>1</WebProject_DirectoryAccessLevelKey>
+    <StartupObject>MyApi.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
