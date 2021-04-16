@@ -38,6 +38,13 @@ namespace BlazorAuth0Bff.Server
             services.AddHttpClient();
             services.AddOptions();
 
+            services.AddHttpClient();
+
+            services.Configure<Auth0ApiConfiguration>(Configuration.GetSection("Auth0ApiConfiguration"));
+            services.AddScoped<Auth0TokenApiService>();
+
+            services.AddDistributedMemoryCache();
+
             // Add authentication services
             services.AddAuthentication(options =>
             {
@@ -59,6 +66,7 @@ namespace BlazorAuth0Bff.Server
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add("email");
+                options.Scope.Add("auth0-user-api-one");
                 options.CallbackPath = new PathString("/signin-oidc");
                 options.ClaimsIssuer = "Auth0";
                 options.SaveTokens = true;
