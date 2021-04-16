@@ -20,4 +20,8 @@
 	  <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Authz\" />
+  </ItemGroup>
+
 </Project>

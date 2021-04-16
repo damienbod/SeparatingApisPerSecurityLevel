@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MyApi.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "p-service-api-auth0")]
     [ApiController]
     [Route("api/[controller]")]
     public class ServiceTwoController : ControllerBase

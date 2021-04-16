@@ -93,6 +93,25 @@ namespace MyApi
                 });
             });
 
+            services.AddSingleton<IAuthorizationHandler, UserApiScopeHandler>();
+
+            services.AddAuthorization(policies =>
+            {
+                policies.AddPolicy("p-user-api-auth0", p =>
+                {
+                    p.Requirements.Add(new UserApiScopeHandlerRequirement());
+                    // Validate id of application for which the token was created
+                    p.RequireClaim("azp", "AScjLo16UadTQRIt2Zm1xLHVaEaE1feA");
+                });
+
+                policies.AddPolicy("p-service-api-auth0", p =>
+                {
+                    // Validate id of application for which the token was created
+                    p.RequireClaim("azp", "naWWz6gdxtbQ68Hd2oAehABmmGM9m1zJ");
+                    p.RequireClaim("gty", "client-credentials");
+                });
+            });
+
             services.AddControllers(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
