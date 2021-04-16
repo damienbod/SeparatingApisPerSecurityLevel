@@ -24,6 +24,7 @@ namespace BlazorAuth0Bff.Server.Controllers
         [HttpGet]
         public async System.Threading.Tasks.Task<IEnumerable<string>> GetAsync()
         {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
             var client = _clientFactory.CreateClient();
             var data = await _auth0TokenApiService.GetApiToken(client, "https://auth0-api1");
             return new List<string> { "some data", "more data", "loads of data" };
