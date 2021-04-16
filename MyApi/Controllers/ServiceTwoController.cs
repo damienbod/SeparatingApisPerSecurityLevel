@@ -7,12 +7,12 @@ namespace MyApi.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
-    public class BusinessOneController : ControllerBase
+    [Route("api/[controller]")]
+    public class ServiceTwoController : ControllerBase
     {
-        private readonly ILogger<BusinessOneController> _logger;
+        private readonly ILogger<UserOneController> _logger;
 
-        public BusinessOneController(ILogger<BusinessOneController> logger)
+        public ServiceTwoController(ILogger<UserOneController> logger)
         {
             _logger = logger;
         }
@@ -20,7 +20,7 @@ namespace MyApi.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new List<string> { "business one data" };
+            return new List<string> { "service two data" };
         }
     }
 }

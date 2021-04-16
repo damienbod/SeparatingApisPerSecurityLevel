@@ -13,20 +13,20 @@ namespace BlazorAuth0Bff.Server.Controllers
     [Route("api/[controller]")]
     public class DirectApiController : ControllerBase
     {
-        private readonly Auth0TokenApiService _auth0TokenApiService;
-        private readonly IHttpClientFactory _clientFactory;
+        private readonly MyApiServiceTwoClient _myApiClientService;
 
-        public DirectApiController(Auth0TokenApiService auth0TokenApiService, IHttpClientFactory clientFactory)
+        public DirectApiController(MyApiServiceTwoClient myApiClientService)
         {
-            _auth0TokenApiService = auth0TokenApiService;
-            _clientFactory = clientFactory;
+            _myApiClientService = myApiClientService;
         }
+
         [HttpGet]
         public async System.Threading.Tasks.Task<IEnumerable<string>> GetAsync()
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
-            var client = _clientFactory.CreateClient();
-            var data = await _auth0TokenApiService.GetApiToken(client, "https://auth0-api1");
+
+            var data = await _myApiClientService.GetServiceTwoApiData();
+
             return new List<string> { "some data", "more data", "loads of data" };
         }
     }

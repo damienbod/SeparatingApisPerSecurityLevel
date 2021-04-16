@@ -9,10 +9,9 @@ using Newtonsoft.Json;
 
 namespace BlazorAuth0Bff.Server
 {
-    public class Auth0TokenApiService
+    public class Auth0CCTokenApiService
     {
-        private readonly ILogger<Auth0TokenApiService> _logger;
-        private readonly HttpClient _httpClient;
+        private readonly ILogger<Auth0CCTokenApiService> _logger;
         private readonly Auth0ApiConfiguration _auth0ApiConfiguration;
 
         private static readonly Object _lock = new Object();
@@ -34,15 +33,14 @@ namespace BlazorAuth0Bff.Server
             public string scope { get; set; }
         }
 
-        public Auth0TokenApiService(
+        public Auth0CCTokenApiService(
                 IOptions<Auth0ApiConfiguration> auth0ApiConfiguration,
                 IHttpClientFactory httpClientFactory,
                 ILoggerFactory loggerFactory,
                 IDistributedCache cache)
         {
             _auth0ApiConfiguration = auth0ApiConfiguration.Value;
-            _httpClient = httpClientFactory.CreateClient();
-            _logger = loggerFactory.CreateLogger<Auth0TokenApiService>();
+            _logger = loggerFactory.CreateLogger<Auth0CCTokenApiService>();
             _cache = cache;
         }
 
