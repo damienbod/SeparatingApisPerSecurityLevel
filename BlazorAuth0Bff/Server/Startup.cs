@@ -38,11 +38,10 @@ namespace BlazorAuth0Bff.Server
             services.AddHttpClient();
             services.AddOptions();
 
-            services.AddHttpClient();
-
             services.Configure<Auth0ApiConfiguration>(Configuration.GetSection("Auth0ApiConfiguration"));
             services.AddScoped<Auth0CCTokenApiService>();
             services.AddScoped<MyApiServiceTwoClient>();
+            services.AddScoped<MyApiUserOneClient>();
 
             services.AddDistributedMemoryCache();
 

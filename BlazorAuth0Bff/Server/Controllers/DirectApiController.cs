@@ -14,19 +14,22 @@ namespace BlazorAuth0Bff.Server.Controllers
     public class DirectApiController : ControllerBase
     {
         private readonly MyApiServiceTwoClient _myApiClientService;
+        private readonly MyApiUserOneClient _myApiUserOneClient;
 
-        public DirectApiController(MyApiServiceTwoClient myApiClientService)
+        public DirectApiController(MyApiServiceTwoClient myApiClientService, 
+            MyApiUserOneClient myApiUserOneClient)
         {
             _myApiClientService = myApiClientService;
+            _myApiUserOneClient = myApiUserOneClient;
         }
 
         [HttpGet]
         public async System.Threading.Tasks.Task<IEnumerable<string>> GetAsync()
         {
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-
             var data = await _myApiClientService.GetServiceTwoApiData();
 
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+           // var userdata = await _myApiUserOneClient.GetUserOneApiData(accessToken);
             return new List<string> { "some data", "more data", "loads of data" };
         }
     }

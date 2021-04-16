@@ -7,23 +7,20 @@ using System.Threading.Tasks;
 
 namespace BlazorAuth0Bff.Server
 {
-    public class MyApiServiceTwoClient
+    public class MyApiUserOneClient
     {
         private readonly IConfiguration _configurations;
         private readonly IHttpClientFactory _clientFactory;
-        private readonly Auth0CCTokenApiService _auth0TokenApiService;
 
-        public MyApiServiceTwoClient(
+        public MyApiUserOneClient(
             IConfiguration configurations, 
-            IHttpClientFactory clientFactory,
-            Auth0CCTokenApiService auth0TokenApiService)
+            IHttpClientFactory clientFactory)
         {
             _configurations = configurations;
             _clientFactory = clientFactory;
-            _auth0TokenApiService = auth0TokenApiService;
         }
 
-        public async Task<JArray> GetServiceTwoApiData()
+        public async Task<JArray> GetUserOneApiData(string accessToken)
         {
             try
             {
@@ -31,11 +28,9 @@ namespace BlazorAuth0Bff.Server
 
                 client.BaseAddress = new Uri(_configurations["MyApiUrl"]);
 
-                var access_token = await _auth0TokenApiService.GetApiToken(client, "ServiceTwoApi");
+                client.SetBearerToken(accessToken);
 
-                client.SetBearerToken(access_token);
-
-                var response = await client.GetAsync("api/ServiceTwo");
+                var response = await client.GetAsync("api/UserOne");
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
