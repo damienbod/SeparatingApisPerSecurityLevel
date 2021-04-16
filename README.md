@@ -4,6 +4,8 @@
 
 Securing Blazor Web assembly using Cookies and Auth0
 
+https://damienbod.com/2021/04/12/securing-blazor-web-assembly-using-cookies-and-auth0/
+
 ## Links
 
 https://damienbod.com/2021/03/08/securing-blazor-web-assembly-using-cookies/
