@@ -93,6 +93,13 @@ namespace BlazorAuth0Bff.Server
                             logoutUri += $"&returnTo={ Uri.EscapeDataString(postLogoutUri)}";
                         }
 
+                        context.Response.Redirect(logoutUri);
+                        context.HandleResponse();
+
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToIdentityProvider = context =>
+                    {
                         // The context's ProtocolMessage can be used to pass along additional query parameters
                         // to Auth0's /authorize endpoint.
                         // 
@@ -100,10 +107,7 @@ namespace BlazorAuth0Bff.Server
                         // to call protected endpoints on the corresponding API.
                         context.ProtocolMessage.SetParameter("audience", "https://auth0-api1");
 
-                        context.Response.Redirect(logoutUri);
-                        context.HandleResponse();
-
-                        return Task.CompletedTask;
+                        return Task.FromResult(0);
                     }
                 };
             });

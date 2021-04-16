@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace BlazorAuth0Bff.Server
 {
+    /// <summary>
+    /// setup to oidc client in the startup correctly
+    /// https://auth0.com/docs/quickstart/webapp/aspnet-core#enterprise-saml-and-others-
+    /// </summary>
     public class MyApiUserOneClient
     {
         private readonly IConfiguration _configurations;

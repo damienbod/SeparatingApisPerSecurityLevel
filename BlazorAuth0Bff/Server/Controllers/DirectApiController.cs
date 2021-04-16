@@ -26,10 +26,10 @@ namespace BlazorAuth0Bff.Server.Controllers
         [HttpGet]
         public async System.Threading.Tasks.Task<IEnumerable<string>> GetAsync()
         {
-            var data = await _myApiClientService.GetServiceTwoApiData();
+            var serviceData = await _myApiClientService.GetServiceTwoApiData();
 
             string accessToken = await HttpContext.GetTokenAsync("access_token");
-           // var userdata = await _myApiUserOneClient.GetUserOneApiData(accessToken);
+            var userData = await _myApiUserOneClient.GetUserOneApiData(accessToken);
             return new List<string> { "some data", "more data", "loads of data" };
         }
     }
