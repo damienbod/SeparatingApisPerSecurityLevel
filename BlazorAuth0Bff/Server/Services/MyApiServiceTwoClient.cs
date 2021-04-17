@@ -14,7 +14,7 @@ namespace BlazorAuth0Bff.Server
         private readonly Auth0CCTokenApiService _auth0TokenApiService;
 
         public MyApiServiceTwoClient(
-            IConfiguration configurations, 
+            IConfiguration configurations,
             IHttpClientFactory clientFactory,
             Auth0CCTokenApiService auth0TokenApiService)
         {

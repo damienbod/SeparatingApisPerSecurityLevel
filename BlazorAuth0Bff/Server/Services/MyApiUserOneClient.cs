@@ -17,7 +17,7 @@ namespace BlazorAuth0Bff.Server
         private readonly IHttpClientFactory _clientFactory;
 
         public MyApiUserOneClient(
-            IConfiguration configurations, 
+            IConfiguration configurations,
             IHttpClientFactory clientFactory)
         {
             _configurations = configurations;

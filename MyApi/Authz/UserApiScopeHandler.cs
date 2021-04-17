@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MyApi
 {
-    public class UserApiScopeHandler: AuthorizationHandler<UserApiScopeHandlerRequirement>
+    public class UserApiScopeHandler : AuthorizationHandler<UserApiScopeHandlerRequirement>
     {
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserApiScopeHandlerRequirement requirement)
@@ -20,7 +20,7 @@ namespace MyApi
             if (scopeClaim != null)
             {
                 var scopes = scopeClaim.Value.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                if (scopes.Any(t => t == "auth0-user-api-one"));
+                if (scopes.Any(t => t == "auth0-user-api-one"))
                 {
                     context.Succeed(requirement);
                 }

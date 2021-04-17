@@ -28,20 +28,21 @@ namespace MyApi
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             // IdentityModelEventSource.ShowPII = true;
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigins",
-                    builder =>
-                    {
-                        builder
-                            .AllowCredentials()
-                            .WithOrigins(
-                                "https://localhost:4200")
-                            .SetIsOriginAllowedToAllowWildcardSubdomains()
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
-            });
+            // only needed for browser clients
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowAllOrigins",
+            //        builder =>
+            //        {
+            //            builder
+            //                .AllowCredentials()
+            //                .WithOrigins(
+            //                    "https://localhost:4200")
+            //                .SetIsOriginAllowedToAllowWildcardSubdomains()
+            //                .AllowAnyHeader()
+            //                .AllowAnyMethod();
+            //        });
+            //});
 
             // Adds Microsoft Identity platform (AAD v2.0) support to protect this Api
             //services.AddMicrosoftIdentityWebApiAuthentication(Configuration);
@@ -135,7 +136,8 @@ namespace MyApi
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseCors("AllowAllOrigins");
+            // only needed for browser clients
+            // app.UseCors("AllowAllOrigins");
 
             app.UseHttpsRedirection();
 

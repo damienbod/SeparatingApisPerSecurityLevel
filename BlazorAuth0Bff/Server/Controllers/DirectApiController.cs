@@ -16,7 +16,7 @@ namespace BlazorAuth0Bff.Server.Controllers
         private readonly MyApiServiceTwoClient _myApiClientService;
         private readonly MyApiUserOneClient _myApiUserOneClient;
 
-        public DirectApiController(MyApiServiceTwoClient myApiClientService, 
+        public DirectApiController(MyApiServiceTwoClient myApiClientService,
             MyApiUserOneClient myApiUserOneClient)
         {
             _myApiClientService = myApiClientService;
