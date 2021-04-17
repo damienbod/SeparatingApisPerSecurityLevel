@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -11,29 +10,23 @@ namespace BlazorAuth0Bff.Server.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("api/[controller]")]
-    public class DirectApiController : ControllerBase
+    public class CallUserApiController : ControllerBase
     {
-        private readonly MyApiServiceTwoClient _myApiClientService;
         private readonly MyApiUserOneClient _myApiUserOneClient;
 
-        public DirectApiController(MyApiServiceTwoClient myApiClientService,
-            MyApiUserOneClient myApiUserOneClient)
+        public CallUserApiController(MyApiUserOneClient myApiUserOneClient)
         {
-            _myApiClientService = myApiClientService;
             _myApiUserOneClient = myApiUserOneClient;
         }
 
         [HttpGet]
-        public async System.Threading.Tasks.Task<IEnumerable<string>> GetAsync()
+        public async Task<IActionResult> GetAsync()
         {
-            // call service API
-            var serviceData = await _myApiClientService.GetServiceTwoApiData();
-
             // call user API
             string accessToken = await HttpContext.GetTokenAsync("access_token");
             var userData = await _myApiUserOneClient.GetUserOneApiData(accessToken);
 
-            return new List<string> { "some data", "more data", "loads of data" };
+            return Ok(userData);
         }
     }
 }
