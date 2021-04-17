@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Net.Http.Json;
-using Newtonsoft.Json;
 
 namespace BlazorAuth0Bff.Server
 {
@@ -110,7 +109,7 @@ namespace BlazorAuth0Bff.Server
 
             lock (_lock)
             {
-                _cache.SetString(key, JsonConvert.SerializeObject(accessTokenItem), options);
+                _cache.SetString(key, System.Text.Json.JsonSerializer.Serialize(accessTokenItem), options);
             }
         }
 
@@ -119,7 +118,7 @@ namespace BlazorAuth0Bff.Server
             var item = _cache.GetString(key);
             if (item != null)
             {
-                return JsonConvert.DeserializeObject<AccessTokenResult>(item);
+                return System.Text.Json.JsonSerializer.Deserialize<AccessTokenResult>(item);
             }
 
             return null;
