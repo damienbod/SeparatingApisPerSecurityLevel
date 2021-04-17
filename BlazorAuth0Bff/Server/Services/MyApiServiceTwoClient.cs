@@ -1,8 +1,9 @@
 ﻿using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BlazorAuth0Bff.Server
@@ -23,7 +24,7 @@ namespace BlazorAuth0Bff.Server
             _auth0TokenApiService = auth0TokenApiService;
         }
 
-        public async Task<JArray> GetServiceTwoApiData()
+        public async Task<List<string>> GetServiceTwoApiData()
         {
             try
             {
@@ -38,8 +39,8 @@ namespace BlazorAuth0Bff.Server
                 var response = await client.GetAsync("api/ServiceTwo");
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    var data = JArray.Parse(responseContent);
+                    var data = await JsonSerializer.DeserializeAsync<List<string>>(
+                    await response.Content.ReadAsStreamAsync());
 
                     return data;
                 }

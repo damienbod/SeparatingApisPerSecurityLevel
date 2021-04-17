@@ -1,8 +1,9 @@
 ﻿using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BlazorAuth0Bff.Server
@@ -24,7 +25,7 @@ namespace BlazorAuth0Bff.Server
             _clientFactory = clientFactory;
         }
 
-        public async Task<JArray> GetUserOneApiData(string accessToken)
+        public async Task<List<string>> GetUserOneApiData(string accessToken)
         {
             try
             {
@@ -37,8 +38,8 @@ namespace BlazorAuth0Bff.Server
                 var response = await client.GetAsync("api/UserOne");
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    var data = JArray.Parse(responseContent);
+                    var data = await JsonSerializer.DeserializeAsync<List<string>>(
+                    await response.Content.ReadAsStreamAsync());
 
                     return data;
                 }
