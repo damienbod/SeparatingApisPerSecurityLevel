@@ -9,7 +9,7 @@ https://damienbod.com/2021/04/12/securing-blazor-web-assembly-using-cookies-and-
 
 ## History
 
-2021-04-17 Add some downstream APIs
+2021-04-17 Added downstream APIs
 
 ## Links
 
