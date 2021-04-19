@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 
 /01-login-auth0-guickstart
+/MyApiLog.txt

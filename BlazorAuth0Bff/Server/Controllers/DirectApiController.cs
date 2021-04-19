@@ -12,7 +12,7 @@ namespace BlazorAuth0Bff.Server.Controllers
     public class DirectApiController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<string> GetAsync()
         {
             return new List<string> { "some data", "more data", "loads of data" };
         }

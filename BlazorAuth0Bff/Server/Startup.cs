@@ -38,6 +38,13 @@ namespace BlazorAuth0Bff.Server
             services.AddHttpClient();
             services.AddOptions();
 
+            services.Configure<Auth0ApiConfiguration>(Configuration.GetSection("Auth0ApiConfiguration"));
+            services.AddScoped<Auth0CCTokenApiService>();
+            services.AddScoped<MyApiServiceTwoClient>();
+            services.AddScoped<MyApiUserOneClient>();
+
+            services.AddDistributedMemoryCache();
+
             // Add authentication services
             services.AddAuthentication(options =>
             {
@@ -59,6 +66,7 @@ namespace BlazorAuth0Bff.Server
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add("email");
+                options.Scope.Add("auth0-user-api-one");
                 options.CallbackPath = new PathString("/signin-oidc");
                 options.ClaimsIssuer = "Auth0";
                 options.SaveTokens = true;
@@ -89,6 +97,17 @@ namespace BlazorAuth0Bff.Server
                         context.HandleResponse();
 
                         return Task.CompletedTask;
+                    },
+                    OnRedirectToIdentityProvider = context =>
+                    {
+                        // The context's ProtocolMessage can be used to pass along additional query parameters
+                        // to Auth0's /authorize endpoint.
+                        // 
+                        // Set the audience query parameter to the API identifier to ensure the returned Access Tokens can be used
+                        // to call protected endpoints on the corresponding API.
+                        context.ProtocolMessage.SetParameter("audience", "https://auth0-api1");
+
+                        return Task.FromResult(0);
                     }
                 };
             });
