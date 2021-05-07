@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Web;
 
 namespace MyApi.Controllers
 {
-    [Authorize(Policy = "p-user-api-auth0")]
+    [Authorize]
+    [AuthorizeForScopes(Scopes = new string[] { "api://72286b8d-5010-4632-9cea-e69e565a5517/user_impersonation" })]
     [ApiController]
     [Route("api/[controller]")]
     public class AzureADUserOneController : ControllerBase
