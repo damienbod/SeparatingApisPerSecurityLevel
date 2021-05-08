@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Reflection;
+using System.IO;
 
 namespace MyApi
 {
@@ -92,6 +94,11 @@ namespace MyApi
                         Url = new Uri("https://damienbod.com/"),
                     },
                 });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             services.AddSingleton<IAuthorizationHandler, UserApiScopeHandler>();

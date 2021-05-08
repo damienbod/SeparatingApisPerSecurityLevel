@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyApi</name>
+    </assembly>
+    <members>
+        <member name="T:MyApi.Controllers.AzureADUserOneController">
+            <summary>
+            API protected with Microsoft.Identity.Web and Azure AD
+            scope from App registration used to authorize.
+            </summary>
+        </member>
+        <member name="M:MyApi.Controllers.AzureADUserOneController.Get">
+            <summary>
+            returns data id the correct Azure AD access token is used with the correct scope.
+            </summary>
+            <returns>protected data</returns>
+        </member>
+        <member name="T:MyApi.Controllers.ServiceTwoController">
+            <summary>
+            User access token protected using Auth0 
+            protected using "p-service-api-auth0" policy defined in the Startup
+            </summary>
+        </member>
+        <member name="M:MyApi.Controllers.ServiceTwoController.Get">
+            <summary>
+            returns data id the correct Auth0 access token is used.
+            </summary>
+            <returns>protected data</returns>
+        </member>
+        <member name="T:MyApi.Controllers.UserOneController">
+            <summary>
+            User access token protected using Auth0 
+            protected using "p-user-api-auth0" policy defined in the Startup
+            </summary>
+        </member>
+        <member name="M:MyApi.Controllers.UserOneController.Get">
+            <summary>
+            returns data id the correct Auth0 access token is used.
+            </summary>
+            <returns>protected data</returns>
+        </member>
+    </members>
+</doc>
