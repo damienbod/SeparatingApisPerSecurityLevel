@@ -14,7 +14,6 @@ namespace MyApi.Controllers
     /// scope from App registration used to authorize.
     /// </summary>
     [SwaggerTag("API protected with Microsoft.Identity.Web and Azure AD")]
-    [Authorize(AuthenticationSchemes = "myADscheme")]
     [AuthorizeForScopes(Scopes = new string[] { "api://72286b8d-5010-4632-9cea-e69e565a5517/user_impersonation" }, 
         AuthenticationScheme = "myADscheme")]
     [ApiController]
