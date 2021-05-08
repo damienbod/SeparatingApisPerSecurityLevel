@@ -61,6 +61,7 @@ namespace MyApi
 
             services.AddSwaggerGen(c =>
             {
+                c.EnableAnnotations();
                 // add JWT Authentication
                 var securityScheme = new OpenApiSecurityScheme
                 {
@@ -92,8 +93,8 @@ namespace MyApi
                         Name = "damienbod",
                         Email = string.Empty,
                         Url = new Uri("https://damienbod.com/"),
-                    },
-                });
+                    }
+            });
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

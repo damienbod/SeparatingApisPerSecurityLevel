@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MyApi.Controllers
 {
     /// <summary>
-    /// User access token protected using Auth0 
+    /// Service access token protected using Auth0 
     /// protected using "p-service-api-auth0" policy defined in the Startup
     /// </summary>
+    [SwaggerTag("Service access token protected using Auth0 ")]
     [Authorize(Policy = "p-service-api-auth0")]
     [ApiController]
     [Route("api/[controller]")]
