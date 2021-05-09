@@ -13,6 +13,8 @@ https://damienbod.com/2021/04/19/securing-multiple-auth0-apis-in-asp-net-core-us
 
 ## History
 
+2021-05-09 Updated APIs, added AAD, and AAD Razor page UI to call api, improved swagger definitions
+
 2021-04-17 Added downstream APIs
 
 ## Links
