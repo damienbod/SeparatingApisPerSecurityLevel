@@ -70,37 +70,31 @@ namespace BlazorAuth0Bff.Server
 
         private async Task<AccessTokenResult> GetApiTokenClient(HttpClient client)
         {
-            try
+            var payload = new Auth0ClientCrendentials
             {
-                var payload = new Auth0ClientCrendentials
+                client_id = _auth0ApiConfiguration.ClientId,
+                client_secret = _auth0ApiConfiguration.ClientSecret,
+                audience = _auth0ApiConfiguration.Audience
+            };
+
+            var authUrl = _auth0ApiConfiguration.Url;
+            var tokenResponse = await client.PostAsJsonAsync(authUrl, payload);
+
+            if (tokenResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var result = await tokenResponse.Content.ReadFromJsonAsync<AccessTokenItem>();
+                DateTime expirationTime = DateTimeOffset.FromUnixTimeSeconds(result.expires_in).DateTime;
+                return new AccessTokenResult
                 {
-                    client_id = _auth0ApiConfiguration.ClientId,
-                    client_secret = _auth0ApiConfiguration.ClientSecret,
-                    audience = _auth0ApiConfiguration.Audience
+                    AcessToken = result.access_token,
+                    ExpiresIn = expirationTime
                 };
-
-                var authUrl = _auth0ApiConfiguration.Url;
-                var tokenResponse = await client.PostAsJsonAsync(authUrl, payload);
-
-                if (tokenResponse.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var result = await tokenResponse.Content.ReadFromJsonAsync<AccessTokenItem>();
-                    DateTime expirationTime = DateTimeOffset.FromUnixTimeSeconds(result.expires_in).DateTime;
-                    return new AccessTokenResult
-                    {
-                        AcessToken = result.access_token,
-                        ExpiresIn = expirationTime
-                    };
-                }
-
-                _logger.LogError($"tokenResponse.IsError Status code: {tokenResponse.StatusCode}, Error: {tokenResponse.ReasonPhrase}");
-                throw new ApplicationException($"Status code: {tokenResponse.StatusCode}, Error: {tokenResponse.ReasonPhrase}");
             }
-            catch (Exception e)
-            {
-                _logger.LogError($"Exception {e}");
-                throw new ApplicationException($"Exception {e}");
-            }
+
+            _logger.LogError($"tokenResponse.IsError Status code: {tokenResponse.StatusCode}, Error: {tokenResponse.ReasonPhrase}");
+            var errorMessage = await tokenResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+            _logger.LogError(errorMessage);
+            throw new ApplicationException($"Status code: {tokenResponse.StatusCode}, Error: {tokenResponse.ReasonPhrase}, message: {errorMessage}");
         }
 
         private void AddToCache(string key, AccessTokenResult accessTokenItem)
