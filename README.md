@@ -4,7 +4,7 @@
 
 - [Securing Blazor Web assembly using Cookies and Auth0](https://damienbod.com/2021/04/12/securing-blazor-web-assembly-using-cookies-and-auth0/)
 - [Securing multiple Auth0 APIs in ASP.NET Core using OAuth Bearer tokens](https://damienbod.com/2021/04/19/securing-multiple-auth0-apis-in-asp-net-core-using-oauth-bearer-tokens/)
-- [Securing multiple Identity Provider OAuth Bearer tokens in an ASP.NET Core API](https://damienbod.com/2021/05/17/securing-multiple-identity-provider-oauth-bearer-tokens-in-an-asp-net-core-api/)
+- [Securing OAuth Bearer tokens from multiple Identity Providers in an ASP.NET Core API](https://damienbod.com/2021/05/17/securing-multiple-identity-provider-oauth-bearer-tokens-in-an-asp-net-core-api/)
 
 ## History
 
