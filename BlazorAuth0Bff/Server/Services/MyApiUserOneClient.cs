@@ -27,29 +27,23 @@ namespace BlazorAuth0Bff.Server
 
         public async Task<List<string>> GetUserOneApiData(string accessToken)
         {
-            try
+            var client = _clientFactory.CreateClient();
+
+            client.BaseAddress = new Uri(_configurations["MyApiUrl"]);
+
+            client.SetBearerToken(accessToken);
+
+            var response = await client.GetAsync("api/UserOne");
+            if (response.IsSuccessStatusCode)
             {
-                var client = _clientFactory.CreateClient();
+                var data = await JsonSerializer.DeserializeAsync<List<string>>(
+                await response.Content.ReadAsStreamAsync());
 
-                client.BaseAddress = new Uri(_configurations["MyApiUrl"]);
-
-                client.SetBearerToken(accessToken);
-
-                var response = await client.GetAsync("api/UserOne");
-                if (response.IsSuccessStatusCode)
-                {
-                    var data = await JsonSerializer.DeserializeAsync<List<string>>(
-                    await response.Content.ReadAsStreamAsync());
-
-                    return data;
-                }
-
-                throw new ApplicationException($"Status code: {response.StatusCode}, Error: {response.ReasonPhrase}");
+                return data;
             }
-            catch (Exception e)
-            {
-                throw new ApplicationException($"Exception {e}");
-            }
+
+            var errorMessage = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            throw new ApplicationException($"Status code: {response.StatusCode}, Error: {response.ReasonPhrase}, message: {errorMessage}");
         }
     }
 }

@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Reflection;
+using System.IO;
 
 namespace MyApi
 {
@@ -45,7 +47,7 @@ namespace MyApi
             //});
 
             // Adds Microsoft Identity platform (AAD v2.0) support to protect this Api
-            //services.AddMicrosoftIdentityWebApiAuthentication(Configuration);
+            services.AddMicrosoftIdentityWebApiAuthentication(Configuration, "AzureAd", "myADscheme");
 
             services.AddAuthentication(options =>
             {
@@ -59,6 +61,7 @@ namespace MyApi
 
             services.AddSwaggerGen(c =>
             {
+                c.EnableAnnotations();
                 // add JWT Authentication
                 var securityScheme = new OpenApiSecurityScheme
                 {
@@ -90,8 +93,13 @@ namespace MyApi
                         Name = "damienbod",
                         Email = string.Empty,
                         Url = new Uri("https://damienbod.com/"),
-                    },
-                });
+                    }
+            });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             services.AddSingleton<IAuthorizationHandler, UserApiScopeHandler>();

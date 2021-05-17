@@ -26,31 +26,25 @@ namespace BlazorAuth0Bff.Server
 
         public async Task<List<string>> GetServiceTwoApiData()
         {
-            try
+            var client = _clientFactory.CreateClient();
+
+            client.BaseAddress = new Uri(_configurations["MyApiUrl"]);
+
+            var access_token = await _auth0TokenApiService.GetApiToken(client, "ServiceTwoApi");
+
+            client.SetBearerToken(access_token);
+
+            var response = await client.GetAsync("api/ServiceTwo");
+            if (response.IsSuccessStatusCode)
             {
-                var client = _clientFactory.CreateClient();
+                var data = await JsonSerializer.DeserializeAsync<List<string>>(
+                await response.Content.ReadAsStreamAsync());
 
-                client.BaseAddress = new Uri(_configurations["MyApiUrl"]);
-
-                var access_token = await _auth0TokenApiService.GetApiToken(client, "ServiceTwoApi");
-
-                client.SetBearerToken(access_token);
-
-                var response = await client.GetAsync("api/ServiceTwo");
-                if (response.IsSuccessStatusCode)
-                {
-                    var data = await JsonSerializer.DeserializeAsync<List<string>>(
-                    await response.Content.ReadAsStreamAsync());
-
-                    return data;
-                }
-
-                throw new ApplicationException($"Status code: {response.StatusCode}, Error: {response.ReasonPhrase}");
+                return data;
             }
-            catch (Exception e)
-            {
-                throw new ApplicationException($"Exception {e}");
-            }
+
+            var errorMessage = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            throw new ApplicationException($"Status code: {response.StatusCode}, Error: {response.ReasonPhrase}, message: {errorMessage}");
         }
     }
 }
