@@ -94,7 +94,7 @@ namespace MyApi
                         Email = string.Empty,
                         Url = new Uri("https://damienbod.com/"),
                     }
-            });
+                });
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

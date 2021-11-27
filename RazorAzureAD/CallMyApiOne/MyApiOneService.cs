@@ -14,8 +14,8 @@ namespace RazorAzureAD
         private readonly ITokenAcquisition _tokenAcquisition;
         private readonly IConfiguration _configuration;
 
-        public MyApiOneService(IHttpClientFactory clientFactory, 
-            ITokenAcquisition tokenAcquisition, 
+        public MyApiOneService(IHttpClientFactory clientFactory,
+            ITokenAcquisition tokenAcquisition,
             IConfiguration configuration)
         {
             _clientFactory = clientFactory;

@@ -18,7 +18,7 @@ namespace RazorAzureAD.Pages
         }
 
         public void OnGet()
-        { 
+        {
         }
     }
 }
