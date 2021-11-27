@@ -50,8 +50,10 @@ namespace RazorAzureAD
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
             }
+
+            app.UseSecurityHeaders(
+                SecurityHeadersDefinitions.GetHeaderPolicyCollection(env.IsDevelopment()));
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

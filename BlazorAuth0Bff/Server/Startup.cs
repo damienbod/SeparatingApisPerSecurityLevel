@@ -133,13 +133,16 @@ namespace BlazorAuth0Bff.Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebAssemblyDebugging();
             }
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
             }
+
+            var idp = $"https://{Configuration["Auth0:Domain"]}";
+            app.UseSecurityHeaders(
+                SecurityHeadersDefinitions
+                    .GetHeaderPolicyCollection(env.IsDevelopment(), idp));
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
