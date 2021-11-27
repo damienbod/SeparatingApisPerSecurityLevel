@@ -22,6 +22,7 @@
 	  <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 	  <PackageReference Include="Serilog.Sinks.Seq" Version="5.1.0" />
 	  <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.2.3" />
+	  <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.16.1" />
   </ItemGroup>
 
 </Project>
