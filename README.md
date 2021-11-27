@@ -10,7 +10,7 @@
 
 ## History
 
-2021-11-27 Updated to .NET 6
+2021-11-27 Updated to .NET 6, add security headers
 
 2021-05-09 Updated APIs, added AAD, and AAD Razor page UI to call api, improved swagger definitions
 
