@@ -1,6 +1,6 @@
 [![.NET](https://github.com/damienbod/SeparatingApisPerSecurityLevel/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/SeparatingApisPerSecurityLevel/actions/workflows/dotnet.yml)
 
-# Separating API Security Level
+# Separating API Security Levels
 
 ## Blogs
 
