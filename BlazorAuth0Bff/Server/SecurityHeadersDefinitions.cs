@@ -11,18 +11,9 @@ namespace BlazorAuth0Bff
                 .AddXssProtectionBlock()
                 .AddContentTypeOptionsNoSniff()
                 .AddReferrerPolicyStrictOriginWhenCrossOrigin()
-                .AddCrossOriginOpenerPolicy(builder =>
-                {
-                    builder.SameOrigin();
-                })
-                .AddCrossOriginResourcePolicy(builder =>
-                {
-                    builder.SameOrigin();
-                })
-                .AddCrossOriginEmbedderPolicy(builder => // remove for dev if using hot reload
-                {
-                    builder.RequireCorp();
-                })
+                .AddCrossOriginOpenerPolicy(builder => builder.SameOrigin())
+                .AddCrossOriginResourcePolicy(builder => builder.SameOrigin())
+                .AddCrossOriginEmbedderPolicy(builder => builder.RequireCorp())// remove for dev if using hot reload
                 .AddContentSecurityPolicy(builder =>
                 {
                     builder.AddObjectSrc().None();
