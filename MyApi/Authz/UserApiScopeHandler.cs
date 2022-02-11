@@ -3,33 +3,32 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyApi
+namespace MyApi;
+
+public class UserApiScopeHandler : AuthorizationHandler<UserApiScopeHandlerRequirement>
 {
-    public class UserApiScopeHandler : AuthorizationHandler<UserApiScopeHandlerRequirement>
+
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserApiScopeHandlerRequirement requirement)
     {
+        if (context == null)
+            throw new ArgumentNullException(nameof(context));
+        if (requirement == null)
+            throw new ArgumentNullException(nameof(requirement));
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserApiScopeHandlerRequirement requirement)
+        var scopeClaim = context.User.Claims.FirstOrDefault(t => t.Type == "scope");
+
+        if (scopeClaim != null)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            if (requirement == null)
-                throw new ArgumentNullException(nameof(requirement));
-
-            var scopeClaim = context.User.Claims.FirstOrDefault(t => t.Type == "scope");
-
-            if (scopeClaim != null)
+            var scopes = scopeClaim.Value.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            if (scopes.Any(t => t == "auth0-user-api-one"))
             {
-                var scopes = scopeClaim.Value.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                if (scopes.Any(t => t == "auth0-user-api-one"))
-                {
-                    context.Succeed(requirement);
-                }
+                context.Succeed(requirement);
             }
-
-            return Task.CompletedTask;
         }
-    }
 
-    public class UserApiScopeHandlerRequirement : IAuthorizationRequirement
-    { }
+        return Task.CompletedTask;
+    }
 }
+
+public class UserApiScopeHandlerRequirement : IAuthorizationRequirement
+{ }

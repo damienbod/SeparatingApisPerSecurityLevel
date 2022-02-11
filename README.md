@@ -10,6 +10,8 @@
 
 ## History
 
+2022-02-11 Updated packages, update namespaces
+
 2022-01-10 Updated packages, clean up BFF
 
 2021-11-27 Updated to .NET 6, add security headers
