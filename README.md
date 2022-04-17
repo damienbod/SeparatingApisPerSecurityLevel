@@ -24,6 +24,8 @@
 
 ## Links
 
+https://www.nuget.org/packages/Blazor.BFF.OpenIDConnect.Template/
+
 https://damienbod.com/2021/03/08/securing-blazor-web-assembly-using-cookies/
 
 https://auth0.com/
