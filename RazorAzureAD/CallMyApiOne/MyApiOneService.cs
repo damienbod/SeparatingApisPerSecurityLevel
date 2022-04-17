@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Web;
-using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -23,9 +23,8 @@ public class MyApiOneService
         _configuration = configuration;
     }
 
-    public async Task<JArray> GetApiDataAsync()
+    public async Task<List<string>> GetApiDataAsync()
     {
-
         var client = _clientFactory.CreateClient();
 
         var scope = _configuration["MyApiOne:ScopeForAccessToken"];
@@ -39,9 +38,10 @@ public class MyApiOneService
         if (response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
-            var data = JArray.Parse(responseContent);
+            var data = System.Text.Json.JsonSerializer.Deserialize<List<string>>(responseContent);
 
-            return data;
+            if(data != null)
+                return data;
         }
 
         throw new ApplicationException($"Status code: {response.StatusCode}, Error: {response.ReasonPhrase}");
