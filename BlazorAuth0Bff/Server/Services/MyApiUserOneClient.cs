@@ -39,7 +39,8 @@ public class MyApiUserOneClient
             var data = await JsonSerializer.DeserializeAsync<List<string>>(
             await response.Content.ReadAsStreamAsync());
 
-            return data;
+            if (data != null)
+                return data;
         }
 
         var errorMessage = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
