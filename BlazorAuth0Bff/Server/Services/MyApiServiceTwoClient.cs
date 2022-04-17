@@ -44,7 +44,7 @@ public class MyApiServiceTwoClient
                 return data;
         }
 
-        var errorMessage = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        var errorMessage = await response.Content.ReadAsStringAsync();
         throw new ApplicationException($"Status code: {response.StatusCode}, Error: {response.ReasonPhrase}, message: {errorMessage}");
     }
 }
