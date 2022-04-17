@@ -1,9 +1,18 @@
-﻿namespace BlazorAuth0Bff.Server;
+﻿using System.Text.Json.Serialization;
+
+namespace BlazorAuth0Bff.Server;
 
 public class Auth0ClientCrendentials
 {
-    public string client_id { get; set; }
-    public string client_secret { get; set; }
-    public string audience { get; set; }
-    public string grant_type { get; set; } = "client_credentials";
+    [JsonPropertyName("client_id")]
+    public string ClientId { get; set; } = string.Empty;
+
+    [JsonPropertyName("client_secret")]
+    public string ClientSecret { get; set; } = string.Empty;
+
+    [JsonPropertyName("audience")]
+    public string Audience { get; set; } = string.Empty;
+
+    [JsonPropertyName("grant_type")]
+    public string GrantType { get; set; } = "client_credentials";
 }

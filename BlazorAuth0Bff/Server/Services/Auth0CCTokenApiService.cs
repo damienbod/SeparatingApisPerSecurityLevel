@@ -79,9 +79,9 @@ public class Auth0CCTokenApiService
     {
         var payload = new Auth0ClientCrendentials
         {
-            client_id = _auth0ApiConfiguration.ClientId,
-            client_secret = _auth0ApiConfiguration.ClientSecret,
-            audience = _auth0ApiConfiguration.Audience
+            ClientId = _auth0ApiConfiguration.ClientId,
+            ClientSecret = _auth0ApiConfiguration.ClientSecret,
+            Audience = _auth0ApiConfiguration.Audience
         };
 
         var authUrl = _auth0ApiConfiguration.Url;
