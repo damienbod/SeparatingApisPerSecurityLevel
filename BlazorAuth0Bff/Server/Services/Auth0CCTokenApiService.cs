@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace BlazorAuth0Bff.Server;
 
@@ -13,8 +15,8 @@ public class Auth0CCTokenApiService
     private readonly ILogger<Auth0CCTokenApiService> _logger;
     private readonly Auth0ApiConfiguration _auth0ApiConfiguration;
 
-    private static readonly Object _lock = new Object();
-    private IDistributedCache _cache;
+    private static readonly object _lock = new();
+    private readonly IDistributedCache _cache;
 
     private const int cacheExpirationInDays = 1;
 
@@ -26,15 +28,21 @@ public class Auth0CCTokenApiService
 
     private class AccessTokenItem
     {
-        public string access_token { get; set; } = string.Empty;
-        public int expires_in { get; set; }
-        public string token_type { get; set; }
-        public string scope { get; set; }
+        [JsonPropertyName("access_token")]
+        public string AccessToken { get; set; } = string.Empty;
+
+        [JsonPropertyName("expires_in")]
+        public int ExpiresIn { get; set; }
+
+        [JsonPropertyName("token_type")]
+        public string TokenType { get; set; } = string.Empty;
+
+        [JsonPropertyName("scope")]
+        public string Scope { get; set; } = string.Empty;
     }
 
     public Auth0CCTokenApiService(
             IOptions<Auth0ApiConfiguration> auth0ApiConfiguration,
-            IHttpClientFactory httpClientFactory,
             ILoggerFactory loggerFactory,
             IDistributedCache cache)
     {
@@ -59,7 +67,7 @@ public class Auth0CCTokenApiService
             }
         }
 
-        _logger.LogDebug($"GetApiToken new from oauth server for {api_name}");
+        _logger.LogDebug("GetApiToken new from oauth server for {api_name}", api_name);
 
         // add
         var newAccessToken = await GetApiTokenClient(client);
@@ -72,9 +80,9 @@ public class Auth0CCTokenApiService
     {
         var payload = new Auth0ClientCrendentials
         {
-            client_id = _auth0ApiConfiguration.ClientId,
-            client_secret = _auth0ApiConfiguration.ClientSecret,
-            audience = _auth0ApiConfiguration.Audience
+            ClientId = _auth0ApiConfiguration.ClientId,
+            ClientSecret = _auth0ApiConfiguration.ClientSecret,
+            Audience = _auth0ApiConfiguration.Audience
         };
 
         var authUrl = _auth0ApiConfiguration.Url;
@@ -83,18 +91,27 @@ public class Auth0CCTokenApiService
         if (tokenResponse.StatusCode == System.Net.HttpStatusCode.OK)
         {
             var result = await tokenResponse.Content.ReadFromJsonAsync<AccessTokenItem>();
-            DateTime expirationTime = DateTimeOffset.FromUnixTimeSeconds(result.expires_in).DateTime;
-            return new AccessTokenResult
+            if(result != null)
             {
-                AcessToken = result.access_token,
-                ExpiresIn = expirationTime
-            };
+                DateTime expirationTime = DateTimeOffset.FromUnixTimeSeconds(result.ExpiresIn).DateTime;
+                
+                return new AccessTokenResult
+                {
+                    AcessToken = result.AccessToken,
+                    ExpiresIn = expirationTime
+                };
+            }
         }
 
-        _logger.LogError($"tokenResponse.IsError Status code: {tokenResponse.StatusCode}, Error: {tokenResponse.ReasonPhrase}");
-        var errorMessage = await tokenResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-        _logger.LogError(errorMessage);
-        throw new ApplicationException($"Status code: {tokenResponse.StatusCode}, Error: {tokenResponse.ReasonPhrase}, message: {errorMessage}");
+        _logger.LogError("tokenResponse.IsError Status code: {tokenResponse.StatusCode}, Error: {tokenResponse.ReasonPhrase}",
+            tokenResponse.StatusCode, tokenResponse.ReasonPhrase);
+
+        var errorMessage = await tokenResponse.Content.ReadAsStringAsync();
+
+        _logger.LogError("{Error}", errorMessage);
+
+        var appError = $"Status code: {tokenResponse.StatusCode}, Error: {tokenResponse.ReasonPhrase}, message: {errorMessage}";
+        throw new ApplicationException(appError);
     }
 
     private void AddToCache(string key, AccessTokenResult accessTokenItem)
@@ -103,16 +120,16 @@ public class Auth0CCTokenApiService
 
         lock (_lock)
         {
-            _cache.SetString(key, System.Text.Json.JsonSerializer.Serialize(accessTokenItem), options);
+            _cache.SetString(key, JsonSerializer.Serialize(accessTokenItem), options);
         }
     }
 
-    private AccessTokenResult GetFromCache(string key)
+    private AccessTokenResult? GetFromCache(string key)
     {
         var item = _cache.GetString(key);
         if (item != null)
         {
-            return System.Text.Json.JsonSerializer.Deserialize<AccessTokenResult>(item);
+            return JsonSerializer.Deserialize<AccessTokenResult>(item);
         }
 
         return null;

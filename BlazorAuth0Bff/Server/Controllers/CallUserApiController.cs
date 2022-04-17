@@ -23,9 +23,14 @@ public class CallUserApiController : ControllerBase
     public async Task<IActionResult> GetAsync()
     {
         // call user API
-        string accessToken = await HttpContext.GetTokenAsync("access_token");
-        var userData = await _myApiUserOneClient.GetUserOneApiData(accessToken);
+        string? accessToken = await HttpContext.GetTokenAsync("access_token");
+        if(accessToken != null)
+        {
+            var userData = await _myApiUserOneClient.GetUserOneApiData(accessToken);
 
-        return Ok(userData);
+            return Ok(userData);
+        }
+
+        return Unauthorized("no access token");
     }
 }

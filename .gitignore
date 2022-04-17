@@ -351,3 +351,4 @@ MigrationBackup/
 
 /01-login-auth0-guickstart
 /MyApiLog.txt
+/_logsMyApi.txt

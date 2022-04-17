@@ -1,9 +1,10 @@
 using System;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace MyApi;
 
@@ -12,15 +13,16 @@ public class Program
     public static int Main(string[] args)
     {
         Log.Logger = new LoggerConfiguration()
-        .MinimumLevel.Debug()
-        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-        .Enrich.FromLogContext()
-        .CreateLogger();
+            .MinimumLevel.Debug()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .CreateLogger();
 
         try
         {
             Log.Information("Starting web host");
-            CreateWebHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
             return 0;
         }
         catch (Exception ex)
@@ -34,17 +36,29 @@ public class Program
         }
     }
 
-    public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-        WebHost.CreateDefaultBuilder(args)
-            .UseStartup<Startup>()
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((context, config) =>
+            {
+                var builder = config.Build();
+                var keyVaultEndpoint = builder["AzureKeyVaultEndpoint"];
+                IHostEnvironment env = context.HostingEnvironment;
+
+                config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                    .AddEnvironmentVariables();
+                //.AddUserSecrets("your user secret....");
+
+            })
             .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
                 .ReadFrom.Configuration(hostingContext.Configuration)
                 .Enrich.FromLogContext()
-                .WriteTo.File(
-                    $@"../MyApiLog.txt",
-                    fileSizeLimitBytes: 1_000_000,
-                    rollOnFileSizeLimit: true,
-                    shared: true,
-                    flushToDiskInterval: TimeSpan.FromSeconds(1)));
+                .WriteTo.File("../_logsMyApi.txt")
+                .WriteTo.Console(theme: AnsiConsoleTheme.Code)
+            )
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
 
 }

@@ -19,7 +19,7 @@ public class AccountController : ControllerBase
         });
     }
 
-    // [ValidateAntiForgeryToken] // not needed explicitly due the the Auto global definition.
+    [ValidateAntiForgeryToken]
     [Authorize]
     [HttpPost("Logout")]
     public IActionResult Logout()

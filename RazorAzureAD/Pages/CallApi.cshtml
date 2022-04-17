@@ -8,5 +8,9 @@
 <h1>Call API</h1>
 <h6>gets the data from the Azure AD protected Web API</h6>
 
-<pre>@Model.DataFromApi</pre>
+@foreach(var item in Model.DataFromApi)
+{
+    <pre>@item</pre>
+}
+
 

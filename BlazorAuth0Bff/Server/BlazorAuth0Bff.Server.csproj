@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <WebProject_DirectoryAccessLevelKey>1</WebProject_DirectoryAccessLevelKey>
     <UserSecretsId>de0b7f31-65d4-46d6-8382-30c94073cf4a</UserSecretsId>
+	<Nullable>enable</Nullable>
+	<StartupObject>BlazorAuth0Bff.Server.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,10 +13,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.2" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.4" NoWarn="NU1605" />
     <PackageReference Include="IdentityModel" Version="6.0.0" />
-    <PackageReference Include="IdentityModel.AspNetCore" Version="4.1.2" />
+    <PackageReference Include="IdentityModel.AspNetCore" Version="4.2.0" />
 	<PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.16.1" />
   </ItemGroup>
 
