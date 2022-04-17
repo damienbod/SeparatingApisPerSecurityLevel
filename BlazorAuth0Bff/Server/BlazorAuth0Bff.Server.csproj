@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <WebProject_DirectoryAccessLevelKey>1</WebProject_DirectoryAccessLevelKey>
     <UserSecretsId>de0b7f31-65d4-46d6-8382-30c94073cf4a</UserSecretsId>
 	<Nullable>enable</Nullable>
   </PropertyGroup>
