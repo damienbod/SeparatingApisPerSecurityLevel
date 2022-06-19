@@ -1,113 +1,39 @@
+[![.NET](https://github.com/damienbod/SeparatingApisPerSecurityLevel/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/SeparatingApisPerSecurityLevel/actions/workflows/dotnet.yml)
 
-# Overview of different App security topics 
+# Separating API Security Levels
 
-- Application authentication OIDC, OAuth2, logout, flows
-- Application authorization arch. claims, roles, groups 
-- Self sovereign identity, verifiable credentials, wallets, distributed authentication
-- FIDO2, MFA, 2FA, Authenticators, not SMS 
-- DevOps security
-- OWASP themes, session hardening
-- Identity management in applications, Key management, certificates
+## Blogs
 
-# Authentication Flows
+- [Securing Blazor Web assembly using Cookies and Auth0](https://damienbod.com/2021/04/12/securing-blazor-web-assembly-using-cookies-and-auth0/)
+- [Securing multiple Auth0 APIs in ASP.NET Core using OAuth Bearer tokens](https://damienbod.com/2021/04/19/securing-multiple-auth0-apis-in-asp-net-core-using-oauth-bearer-tokens/)
+- [Securing OAuth Bearer tokens from multiple Identity Providers in an ASP.NET Core API](https://damienbod.com/2021/05/17/securing-multiple-identity-provider-oauth-bearer-tokens-in-an-asp-net-core-api/)
 
-- OpenID Connect Code flow + PKCE with client secret 
-- OpenID Connect Hybrid flow
-- OpenID Connect Code flow + PKCE with no secret
-- OAuth Device Flow
-- On Behalf Of (OBO) Flow
-- OAuth2 Resource Owner Credentials Flow
-- Azure Managed Identities
-- certificate authentication
+## History
 
-# Examples Identity provider clients:
+2022-04-17 Update packages, using nullables
 
-## OIDC clients
+2022-02-11 Updated packages, update namespaces
 
-https://github.com/damienbod/AspNetCoreOpeniddict
+2022-01-10 Updated packages, clean up BFF
 
-https://github.com/damienbod/AspNetCoreHybridFlowWithApi
+2021-11-27 Updated to .NET 6, add security headers
 
-## Azure AD
+2021-05-09 Updated APIs, added AAD, and AAD Razor page UI to call api, improved swagger definitions
 
-https://github.com/Azure-Samples/active-directory-aspnetcore-webapp-openidconnect-v2/
+2021-04-17 Added downstream APIs
 
-https://github.com/damienbod/AzureADAuthRazorUiServiceApiCertificate
+## Links
 
-https://github.com/damienbod/AzureAD-Auth-MyUI-with-MyAPI
+https://www.nuget.org/packages/Blazor.BFF.OpenIDConnect.Template/
 
-### Azure AD Continuous Access
+https://damienbod.com/2021/03/08/securing-blazor-web-assembly-using-cookies/
 
-https://github.com/damienbod/AspNetCoreAzureADCAE
+https://auth0.com/
 
-## Azure AD B2C clients
+https://docs.microsoft.com/en-us/aspnet/core/blazor/components/prerendering-and-integration?view=aspnetcore-5.0&pivots=webassembly#configuration
 
-https://github.com/damienbod/azureb2c-fed-azuread
+https://docs.microsoft.com/en-us/aspnet/core/security/anti-request-forgery
 
-https://github.com/damienbod/PwaBlazorBffAzureB2C
+https://docs.microsoft.com/en-us/aspnet/core/blazor/security
 
-https://github.com/damienbod/AspNetCoreB2cExtraClaims
-
-## Auth0
-
-https://github.com/damienbod/Auth0AngularAspNetCoreApi
-
-https://github.com/damienbod/SeparatingApisPerSecurityLevel
-
-# Examples general
-
-## Microsoft Graph
-
-https://github.com/damienbod/AspNetCoreBlazorMicrosoftGraph
-
-## Data Encryption, Certificates
-
-https://github.com/damienbod/SendingEncryptedData
-
-https://github.com/damienbod/AspNetCoreCertificates
-
-# Links:
-
-https://docs.microsoft.com/en-us/aspnet/core/security/
-
-https://openid.net/connect/
-
-## FIDO2
-
-https://github.com/passwordless-lib/fido2-net-lib
-
-https://github.com/damienbod/AspNetCoreIdentityFido2Mfa
-
-## Microsoft.Identity.Web
-
-https://github.com/AzureAD/microsoft-identity-web
-
-## OpenIddict
-
-https://github.com/openiddict/openiddict-core
-
-## Keycloak
-
-https://www.keycloak.org/
-
-## Blazor BFF
-
-https://github.com/damienbod/Blazor.BFF.OpenIDConnect.Template
-
-https://github.com/damienbod/Blazor.BFF.AzureAD.Template
-
-https://github.com/damienbod/Blazor.BFF.AzureB2C.Template
-
-https://github.com/DuendeSoftware/BFF
-
-## Session
-
-https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders
-
-## Self soverign identity (SSI), Azure VC
-
-https://docs.microsoft.com/en-us/azure/active-directory/verifiable-credentials/verifiable-credentials-configure-tenant
-
-https://github.com/Azure-Samples/active-directory-verifiable-credentials-dotnet
-
-https://github.com/swiss-ssi-group
+https://docs.microsoft.com/en-us/aspnet/core/blazor/security/webassembly/additional-scenarios
