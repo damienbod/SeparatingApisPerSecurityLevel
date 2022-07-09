@@ -10,6 +10,8 @@
 
 ## History
 
+2022-07-09 Updated Auth0 BFF implementation, updated packages
+
 2022-04-17 Update packages, using nullables
 
 2022-02-11 Updated packages, update namespaces
