@@ -1,42 +1,28 @@
-﻿using BlazorAuth0Bff.Client.Services;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
+﻿var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-namespace BlazorAuth0Bff.Client;
+var services = builder.Services;
 
-public class Program
+services.AddOptions();
+services.AddAuthorizationCore();
+services.TryAddSingleton<AuthenticationStateProvider, HostAuthenticationStateProvider>();
+services.TryAddSingleton(sp => (HostAuthenticationStateProvider)sp.GetRequiredService<AuthenticationStateProvider>());
+services.AddTransient<AuthorizedHandler>();
+
+builder.RootComponents.Add<App>("#app");
+
+services.AddHttpClient("default", client =>
 {
-    public static async Task Main(string[] args)
-    {
-        var builder = WebAssemblyHostBuilder.CreateDefault(args);
-        builder.Services.AddOptions();
-        builder.Services.AddAuthorizationCore();
-        builder.Services.TryAddSingleton<AuthenticationStateProvider, HostAuthenticationStateProvider>();
-        builder.Services.TryAddSingleton(sp => (HostAuthenticationStateProvider)sp.GetRequiredService<AuthenticationStateProvider>());
-        builder.Services.AddTransient<AuthorizedHandler>();
+    client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+});
 
-        builder.RootComponents.Add<App>("#app");
+services.AddHttpClient(AuthDefaults.AuthorizedClientName, client =>
+{
+    client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+}).AddHttpMessageHandler<AuthorizedHandler>();
 
-        builder.Services.AddHttpClient("default", client =>
-        {
-            client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("default"));
+services.AddTransient<IAntiforgeryHttpClientFactory, AntiforgeryHttpClientFactory>();
 
-        });
-
-        builder.Services.AddHttpClient("authorizedClient", client =>
-        {
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }).AddHttpMessageHandler<AuthorizedHandler>();
-
-        builder.Services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("default"));
-
-        await builder.Build().RunAsync();
-    }
-}
+await builder.Build().RunAsync();

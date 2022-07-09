@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace BlazorAuth0Bff.Server.Controllers;
 
@@ -11,22 +7,18 @@ namespace BlazorAuth0Bff.Server.Controllers;
 public class AccountController : ControllerBase
 {
     [HttpGet("Login")]
-    public ActionResult Login(string returnUrl)
+    public ActionResult Login(string returnUrl) => Challenge(new AuthenticationProperties
     {
-        return Challenge(new AuthenticationProperties
-        {
-            RedirectUri = !string.IsNullOrEmpty(returnUrl) ? returnUrl : "/"
-        });
-    }
+        RedirectUri = !string.IsNullOrEmpty(returnUrl) ? returnUrl : "/"
+    });
 
     [ValidateAntiForgeryToken]
     [Authorize]
     [HttpPost("Logout")]
-    public IActionResult Logout()
+    public IActionResult Logout() => SignOut(new AuthenticationProperties
     {
-        return SignOut(
-            new AuthenticationProperties { RedirectUri = "/" },
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            OpenIdConnectDefaults.AuthenticationScheme);
-    }
+        RedirectUri = "/"
+    },
+    CookieAuthenticationDefaults.AuthenticationScheme,
+    OpenIdConnectDefaults.AuthenticationScheme);
 }

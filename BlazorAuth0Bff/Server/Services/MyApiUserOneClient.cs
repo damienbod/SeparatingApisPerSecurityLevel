@@ -1,10 +1,4 @@
-﻿using IdentityModel.Client;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
 namespace BlazorAuth0Bff.Server;
 

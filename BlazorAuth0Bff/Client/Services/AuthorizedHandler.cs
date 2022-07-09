@@ -1,9 +1,4 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace BlazorAuth0Bff.Client.Services;
+﻿namespace BlazorAuth0Bff.Client.Services;
 
 // orig src https://github.com/berhir/BlazorWebAssemblyCookieAuth
 public class AuthorizedHandler : DelegatingHandler
@@ -11,9 +6,7 @@ public class AuthorizedHandler : DelegatingHandler
     private readonly HostAuthenticationStateProvider _authenticationStateProvider;
 
     public AuthorizedHandler(HostAuthenticationStateProvider authenticationStateProvider)
-    {
-        _authenticationStateProvider = authenticationStateProvider;
-    }
+        => _authenticationStateProvider = authenticationStateProvider;
 
     protected override async Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request,
