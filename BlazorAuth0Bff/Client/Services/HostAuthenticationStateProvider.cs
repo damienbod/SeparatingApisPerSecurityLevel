@@ -1,22 +1,9 @@
-﻿using BlazorAuth0Bff.Shared.Authorization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace BlazorAuth0Bff.Client.Services;
+﻿namespace BlazorAuth0Bff.Client.Services;
 
 // orig src https://github.com/berhir/BlazorWebAssemblyCookieAuth
 public class HostAuthenticationStateProvider : AuthenticationStateProvider
 {
     private static readonly TimeSpan _userCacheRefreshInterval = TimeSpan.FromSeconds(60);
-
-    private const string LogInPath = "api/Account/Login";
-    private const string LogOutPath = "api/Account/Logout";
 
     private readonly NavigationManager _navigation;
     private readonly HttpClient _client;
@@ -33,15 +20,13 @@ public class HostAuthenticationStateProvider : AuthenticationStateProvider
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
-    {
-        return new AuthenticationState(await GetUser(useCache: true));
-    }
+        => new AuthenticationState(await GetUser(useCache: true));
 
     public void SignIn(string? customReturnUrl = null)
     {
         var returnUrl = customReturnUrl != null ? _navigation.ToAbsoluteUri(customReturnUrl).ToString() : null;
         var encodedReturnUrl = Uri.EscapeDataString(returnUrl ?? _navigation.Uri);
-        var logInUrl = _navigation.ToAbsoluteUri($"{LogInPath}?returnUrl={encodedReturnUrl}");
+        var logInUrl = _navigation.ToAbsoluteUri($"{AuthDefaults.LogInPath}?returnUrl={encodedReturnUrl}");
         _navigation.NavigateTo(logInUrl.ToString(), true);
     }
 
@@ -87,10 +72,7 @@ public class HostAuthenticationStateProvider : AuthenticationStateProvider
 
         if (user.Claims != null)
         {
-            foreach (var claim in user.Claims)
-            {
-                identity.AddClaim(new Claim(claim.Type, claim.Value));
-            }
+            identity.AddClaims(user.Claims.Select(c => new Claim(c.Type, c.Value)));
         }
 
         return new ClaimsPrincipal(identity);

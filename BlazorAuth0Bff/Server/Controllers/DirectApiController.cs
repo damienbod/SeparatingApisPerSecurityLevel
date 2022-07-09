@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace BlazorAuth0Bff.Server.Controllers;
 
@@ -12,8 +9,5 @@ namespace BlazorAuth0Bff.Server.Controllers;
 public class DirectApiController : ControllerBase
 {
     [HttpGet]
-    public IEnumerable<string> GetAsync()
-    {
-        return new List<string> { "some data", "more data", "loads of data" };
-    }
+    public IEnumerable<string> Get() => new List<string> { "some data", "more data", "loads of data" };
 }

@@ -1,10 +1,5 @@
-﻿using IdentityModel.Client;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace BlazorAuth0Bff.Server;
 
@@ -32,7 +27,8 @@ public class MyApiServiceTwoClient
 
         var access_token = await _auth0TokenApiService.GetApiToken(client, "ServiceTwoApi");
 
-        client.SetBearerToken(access_token);
+        client.DefaultRequestHeaders.Authorization 
+            = new AuthenticationHeaderValue("Bearer", access_token);
 
         var response = await client.GetAsync("api/ServiceTwo");
         if (response.IsSuccessStatusCode)

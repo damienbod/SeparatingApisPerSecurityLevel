@@ -1,10 +1,5 @@
-﻿using IdentityModel.Client;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace BlazorAuth0Bff.Server;
 
@@ -31,7 +26,8 @@ public class MyApiUserOneClient
 
         client.BaseAddress = new Uri(_configurations["MyApiUrl"]);
 
-        client.SetBearerToken(accessToken);
+        client.DefaultRequestHeaders.Authorization
+            = new AuthenticationHeaderValue("Bearer", accessToken);
 
         var response = await client.GetAsync("api/UserOne");
         if (response.IsSuccessStatusCode)
