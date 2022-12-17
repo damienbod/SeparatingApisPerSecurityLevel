@@ -53,7 +53,7 @@ services.AddAuthentication(options =>
 
     options.Events = new OpenIdConnectEvents
     {
-                // handle the logout redirection 
+        // handle the logout redirection 
         OnRedirectToIdentityProviderForSignOut = (context) =>
         {
             var logoutUri = $"https://{configuration["Auth0:Domain"]}/v2/logout?client_id={configuration["Auth0:ClientId"]}";
@@ -63,7 +63,7 @@ services.AddAuthentication(options =>
             {
                 if (postLogoutUri.StartsWith("/"))
                 {
-                            // transform to absolute
+                    // transform to absolute
                     var request = context.Request;
                     postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase + postLogoutUri;
                 }
@@ -77,11 +77,11 @@ services.AddAuthentication(options =>
         },
         OnRedirectToIdentityProvider = context =>
         {
-                    // The context's ProtocolMessage can be used to pass along additional query parameters
-                    // to Auth0's /authorize endpoint.
-                    // 
-                    // Set the audience query parameter to the API identifier to ensure the returned Access Tokens can be used
-                    // to call protected endpoints on the corresponding API.
+            // The context's ProtocolMessage can be used to pass along additional query parameters
+            // to Auth0's /authorize endpoint.
+            // 
+            // Set the audience query parameter to the API identifier to ensure the returned Access Tokens can be used
+            // to call protected endpoints on the corresponding API.
             context.ProtocolMessage.SetParameter("audience", "https://auth0-api1");
 
             return Task.FromResult(0);
