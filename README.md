@@ -10,6 +10,8 @@
 
 ## History
 
+2023-04-28 Updated packages
+
 2022-12-17 Updated packages to .NET 7
 
 2022-07-09 Updated Auth0 BFF implementation, updated packages
