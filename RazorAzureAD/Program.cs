@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace RazorAzureAD;
+namespace MicrosoftEntraID;
 
 public class Program
 {

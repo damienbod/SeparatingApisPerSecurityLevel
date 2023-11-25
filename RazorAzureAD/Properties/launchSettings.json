@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "RazorAzureAD": {
+    "MicrosoftEntraID": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:44397",

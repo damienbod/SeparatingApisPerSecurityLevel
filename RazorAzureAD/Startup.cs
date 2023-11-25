@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
-namespace RazorAzureAD;
+namespace MicrosoftEntraID;
 
 public class Startup
 {

@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace RazorAzureAD;
+namespace MicrosoftEntraID;
 
 public class MyApiOneService
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace RazorAzureAD;
+namespace MicrosoftEntraID;
 
 public static class SecurityHeadersDefinitions
 {
