@@ -24,7 +24,7 @@ public class MyApiUserOneClient
     {
         var client = _clientFactory.CreateClient();
 
-        client.BaseAddress = new Uri(_configurations["MyApiUrl"]);
+        client.BaseAddress = new Uri(_configurations["MyApiUrl"]!);
 
         client.DefaultRequestHeaders.Authorization
             = new AuthenticationHeaderValue("Bearer", accessToken);

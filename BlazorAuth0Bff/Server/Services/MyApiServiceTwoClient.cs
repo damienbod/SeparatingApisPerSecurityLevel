@@ -23,7 +23,7 @@ public class MyApiServiceTwoClient
     {
         var client = _clientFactory.CreateClient();
 
-        client.BaseAddress = new Uri(_configurations["MyApiUrl"]);
+        client.BaseAddress = new Uri(_configurations["MyApiUrl"]!);
 
         var access_token = await _auth0TokenApiService.GetApiToken(client, "ServiceTwoApi");
 
