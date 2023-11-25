@@ -20,7 +20,7 @@
 - 2022-02-11 Updated packages, update namespaces
 - 2022-01-10 Updated packages, clean up BFF
 - 2021-11-27 Updated to .NET 6, add security headers
-- 2021-05-09 Updated APIs, added AAD, and AAD Razor page UI to call api, improved swagger definitions
+- 2021-05-09 Updated APIs, added Microsoft Entra ID, and Microsoft Entra ID Razor page UI to call api, improved swagger definitions
 - 2021-04-17 Added downstream APIs
 
 ## Links
