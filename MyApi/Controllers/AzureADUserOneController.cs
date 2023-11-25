@@ -8,10 +8,10 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace MyApi.Controllers;
 
 /// <summary>
-/// API protected with Microsoft.Identity.Web and Azure AD
+/// API protected with Microsoft.Identity.Web and Microsoft Entra ID
 /// scope from App registration used to authorize.
 /// </summary>
-[SwaggerTag("API protected with Microsoft.Identity.Web and Azure AD")]
+[SwaggerTag("API protected with Microsoft.Identity.Web and Microsoft Entra ID")]
 [AuthorizeForScopes(Scopes = new string[] { "api://b2a09168-54e2-4bc4-af92-a710a64ef1fa/access_as_user" },
     AuthenticationScheme = "myADscheme")]
 [Authorize(AuthenticationSchemes = "myADscheme")]
@@ -20,7 +20,7 @@ namespace MyApi.Controllers;
 public class AzureADUserOneController : ControllerBase
 {
     /// <summary>
-    /// returns data id the correct Azure AD access token is used with the correct scope.
+    /// returns data id the correct Microsoft Entra ID access token is used with the correct scope.
     /// </summary>
     /// <returns>protected data</returns>
     [HttpGet]

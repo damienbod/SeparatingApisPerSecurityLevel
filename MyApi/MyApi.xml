@@ -6,14 +6,14 @@
     <members>
         <member name="T:MyApi.Controllers.AzureADUserOneController">
             <summary>
-            API protected with Microsoft.Identity.Web and Azure AD
-            scope from App registration used to authorize.
-            </summary>
+				API protected with Microsoft.Identity.Web and Microsoft Entra ID
+				scope from App registration used to authorize.
+			</summary>
         </member>
         <member name="M:MyApi.Controllers.AzureADUserOneController.Get">
             <summary>
-            returns data id the correct Azure AD access token is used with the correct scope.
-            </summary>
+				returns data id the correct Microsoft Entra ID access token is used with the correct scope.
+			</summary>
             <returns>protected data</returns>
         </member>
         <member name="T:MyApi.Controllers.ServiceTwoController">
