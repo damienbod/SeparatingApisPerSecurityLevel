@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApi", "MyApi\MyApi.csproj", "{BE0C8CDE-560F-4A70-8881-553D52EEB305}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorMicrosoftEntraID", "RazorAzureAD\RazorMicrosoftEntraID.csproj", "{302F07AA-BAB7-4F03-80A5-4B7BD2A461BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorMicrosoftEntraID", "RazorMicrosoftEntraID\RazorMicrosoftEntraID.csproj", "{302F07AA-BAB7-4F03-80A5-4B7BD2A461BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
