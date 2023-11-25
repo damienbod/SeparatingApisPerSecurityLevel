@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Reflection;
 using System.IO;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace MyApi;
 
@@ -27,9 +27,6 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-        // IdentityModelEventSource.ShowPII = true;
-
         // only needed for browser clients
         //services.AddCors(options =>
         //{
@@ -132,7 +129,7 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+        JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
         app.UseSecurityHeaders(
             SecurityHeadersDefinitions.GetHeaderPolicyCollection(env.IsDevelopment()));
