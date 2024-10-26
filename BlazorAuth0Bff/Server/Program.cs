@@ -1,9 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc.Authorization;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 var configuration = builder.Configuration;
+
+var idp = $"https://{configuration["Auth0:Domain"]}";
+
+services.AddSecurityHeaderPolicies()
+  .SetPolicySelector((PolicySelectorContext ctx) =>
+  {
+  return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
+      builder.Environment.IsDevelopment(), idp);
+  });
 
 services.AddAntiforgery(options =>
 {
@@ -111,10 +121,7 @@ else
     app.UseExceptionHandler("/Error");
 }
 
-var idp = $"https://{configuration["Auth0:Domain"]}";
-app.UseSecurityHeaders(
-    SecurityHeadersDefinitions
-        .GetHeaderPolicyCollection(app.Environment.IsDevelopment(), idp));
+app.UseSecurityHeaders();
 
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
