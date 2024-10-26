@@ -16,7 +16,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 var configuration = builder.Configuration;
-var env = builder.Environment;
 
 // only needed for browser clients
 //services.AddCors(options =>
@@ -122,7 +121,7 @@ var app = builder.Build();
 JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 app.UseSecurityHeaders(
-    SecurityHeadersDefinitions.GetHeaderPolicyCollection(env.IsDevelopment()));
+    SecurityHeadersDefinitions.GetHeaderPolicyCollection(app.Environment.IsDevelopment()));
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>

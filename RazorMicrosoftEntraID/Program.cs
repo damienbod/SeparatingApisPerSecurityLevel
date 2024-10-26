@@ -13,7 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 var configuration = builder.Configuration;
-var env = builder.Environment;
 
 services.AddTransient<MyApiOneService>();
 services.AddHttpClient();
@@ -36,7 +35,7 @@ services.AddRazorPages().AddMvcOptions(options =>
 
 var app = builder.Build();
 
-if (env.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
@@ -46,7 +45,7 @@ else
 }
 
 app.UseSecurityHeaders(
-    SecurityHeadersDefinitions.GetHeaderPolicyCollection(env.IsDevelopment()));
+    SecurityHeadersDefinitions.GetHeaderPolicyCollection(app.Environment.IsDevelopment()));
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
