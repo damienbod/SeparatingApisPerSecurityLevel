@@ -10,7 +10,7 @@
 
 ## History
 
-- 2024-10-26 Updated packages
+- 2024-10-26 Updated packages, updated security hedaers
 - 2024-07-03 Updated packages
 - 2024-02-02 Updated packages, fix refresh bug
 - 2024-01-14 Updated packages, improve security headers in blazor app
