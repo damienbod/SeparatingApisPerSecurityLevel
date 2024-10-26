@@ -22,7 +22,6 @@ services.AddSecurityHeaderPolicies()
           builder.Environment.IsDevelopment());
   });
 
-
 services.AddTransient<MyApiOneService>();
 services.AddHttpClient();
 

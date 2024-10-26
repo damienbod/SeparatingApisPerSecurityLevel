@@ -8,6 +8,7 @@ using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.OpenApi.Models;
 using MyApi;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using System;
 using System.IO;
 using System.Reflection;
@@ -16,6 +17,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 var configuration = builder.Configuration;
+
+services.AddSecurityHeaderPolicies()
+  .SetPolicySelector((PolicySelectorContext ctx) =>
+  {
+      return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
+          builder.Environment.IsDevelopment());
+  });
 
 // only needed for browser clients
 //services.AddCors(options =>
@@ -120,8 +128,7 @@ var app = builder.Build();
 
 JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-app.UseSecurityHeaders(
-    SecurityHeadersDefinitions.GetHeaderPolicyCollection(app.Environment.IsDevelopment()));
+app.UseSecurityHeaders();
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
