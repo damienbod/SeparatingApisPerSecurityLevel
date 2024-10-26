@@ -7,12 +7,21 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using MicrosoftEntraID;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 var configuration = builder.Configuration;
+
+services.AddSecurityHeaderPolicies()
+  .SetPolicySelector((PolicySelectorContext ctx) =>
+  {
+      return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
+          builder.Environment.IsDevelopment());
+  });
+
 
 services.AddTransient<MyApiOneService>();
 services.AddHttpClient();
@@ -44,8 +53,7 @@ else
     app.UseExceptionHandler("/Error");
 }
 
-app.UseSecurityHeaders(
-    SecurityHeadersDefinitions.GetHeaderPolicyCollection(app.Environment.IsDevelopment()));
+app.UseSecurityHeaders();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
