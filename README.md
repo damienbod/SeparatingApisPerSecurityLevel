@@ -10,6 +10,7 @@
 
 ## History
 
+- 2025-01-05 Updated packages, .NET 9, Bootstrap 5
 - 2024-10-26 Updated packages, updated security headers
 - 2024-07-03 Updated packages
 - 2024-02-02 Updated packages, fix refresh bug
