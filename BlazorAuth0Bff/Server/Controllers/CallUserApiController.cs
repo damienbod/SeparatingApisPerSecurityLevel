@@ -1,10 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace BlazorAuth0Bff.Server.Controllers;
+﻿namespace BlazorAuth0Bff.Server.Controllers;
 
 [ValidateAntiForgeryToken]
 [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
@@ -24,7 +18,7 @@ public class CallUserApiController : ControllerBase
     {
         // call user API
         string? accessToken = await HttpContext.GetTokenAsync("access_token");
-        if(accessToken != null)
+        if (accessToken != null)
         {
             var userData = await _myApiUserOneClient.GetUserOneApiData(accessToken);
 

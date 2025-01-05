@@ -11,8 +11,8 @@ var idp = $"https://{configuration["Auth0:Domain"]}";
 services.AddSecurityHeaderPolicies()
   .SetPolicySelector((PolicySelectorContext ctx) =>
   {
-  return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
-      builder.Environment.IsDevelopment(), idp);
+      return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
+          builder.Environment.IsDevelopment(), idp);
   });
 
 services.AddAntiforgery(options =>

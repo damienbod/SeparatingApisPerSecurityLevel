@@ -27,7 +27,7 @@ public class MyApiServiceTwoClient
 
         var access_token = await _auth0TokenApiService.GetApiToken(client, "ServiceTwoApi");
 
-        client.DefaultRequestHeaders.Authorization 
+        client.DefaultRequestHeaders.Authorization
             = new AuthenticationHeaderValue("Bearer", access_token);
 
         var response = await client.GetAsync("api/ServiceTwo");
@@ -36,7 +36,7 @@ public class MyApiServiceTwoClient
             var data = await JsonSerializer.DeserializeAsync<List<string>>(
             await response.Content.ReadAsStreamAsync());
 
-            if(data != null)
+            if (data != null)
                 return data;
         }
 

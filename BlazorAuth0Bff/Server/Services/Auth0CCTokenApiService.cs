@@ -1,12 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BlazorAuth0Bff.Server;
 
@@ -91,10 +86,10 @@ public class Auth0CCTokenApiService
         if (tokenResponse.StatusCode == System.Net.HttpStatusCode.OK)
         {
             var result = await tokenResponse.Content.ReadFromJsonAsync<AccessTokenItem>();
-            if(result != null)
+            if (result != null)
             {
                 DateTime expirationTime = DateTimeOffset.FromUnixTimeSeconds(result.ExpiresIn).DateTime;
-                
+
                 return new AccessTokenResult
                 {
                     AcessToken = result.AccessToken,

@@ -8,7 +8,6 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using MicrosoftEntraID;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
