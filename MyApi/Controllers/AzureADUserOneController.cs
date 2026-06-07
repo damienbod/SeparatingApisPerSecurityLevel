@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
-using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 
 namespace MyApi.Controllers;
@@ -11,7 +10,6 @@ namespace MyApi.Controllers;
 /// API protected with Microsoft.Identity.Web and Microsoft Entra ID
 /// scope from App registration used to authorize.
 /// </summary>
-[SwaggerTag("API protected with Microsoft.Identity.Web and Microsoft Entra ID")]
 [AuthorizeForScopes(Scopes = ["api://b2a09168-54e2-4bc4-af92-a710a64ef1fa/access_as_user"],
     AuthenticationScheme = "myADscheme")]
 [Authorize(AuthenticationSchemes = "myADscheme")]

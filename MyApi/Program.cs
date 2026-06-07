@@ -1,17 +1,20 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using MyApi;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
-using System;
-using System.IO;
-using System.Reflection;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,47 +57,19 @@ services.AddAuthentication(options =>
     options.Audience = "https://auth0-api1";
 });
 
-services.AddSwaggerGen(c =>
+services.AddOpenApi(options =>
 {
-    c.EnableAnnotations();
-    // add JWT Authentication
-    var securityScheme = new OpenApiSecurityScheme
-    {
-        Name = "JWT Authentication",
-        Description = "Enter JWT Bearer token **_only_**",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer", // must be lower case
-        BearerFormat = "JWT",
-        Reference = new OpenApiReference
-        {
-            Id = JwtBearerDefaults.AuthenticationScheme,
-            Type = ReferenceType.SecurityScheme
-        }
-    };
-    c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {securityScheme, Array.Empty<string>()}
-            });
-
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "My API",
-        Version = "v1",
-        Description = "My API",
-        Contact = new OpenApiContact
-        {
-            Name = "damienbod",
-            Email = string.Empty,
-            Url = new Uri("https://damienbod.com/"),
-        }
-    });
-
-    // Set the comments path for the Swagger JSON and UI.
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath);
+    //options.UseTransformer((document, context, cancellationToken) =>
+    //{
+    //    document.Info = new()
+    //    {
+    //        Title = "My API",
+    //        Version = "v1",
+    //        Description = "API for Damien"
+    //    };
+    //    return Task.CompletedTask;
+    //});
+    options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
 });
 
 services.AddSingleton<IAuthorizationHandler, UserApiScopeHandler>();
@@ -130,23 +105,42 @@ JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 app.UseSecurityHeaders();
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+//app.MapOpenApi(); // /openapi/v1.json
+app.MapOpenApi("/openapi/v1/openapi.json");
+//app.MapOpenApi("/openapi/{documentName}/openapi.json");
+
+app.UseSwaggerUI(options =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "User API");
-    c.RoutePrefix = string.Empty;
+    options.SwaggerEndpoint("/openapi/v1/openapi.json", "v1");
 });
 
-// only needed for browser clients
-// app.UseCors("AllowAllOrigins");
-
-app.UseHttpsRedirection();
-
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
 app.Run();
+
+internal sealed class BearerSecuritySchemeTransformer(IAuthenticationSchemeProvider authenticationSchemeProvider) : IOpenApiDocumentTransformer
+{
+    public async Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
+    {
+        var authenticationSchemes = await authenticationSchemeProvider.GetAllSchemesAsync();
+        if (authenticationSchemes.Any(authScheme => authScheme.Name == "Bearer"))
+        {
+            var requirements = new Dictionary<string, IOpenApiSecurityScheme>
+            {
+                ["Bearer"] = new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer", // "bearer" refers to the header name here
+                    In = ParameterLocation.Header,
+                    BearerFormat = "Json Web Token"
+                }
+            };
+            document.Components ??= new OpenApiComponents();
+            document.Components.SecuritySchemes = requirements;
+        }
+        document.Info = new()
+        {
+            Title = "My API Bearer scheme",
+            Version = "v1",
+            Description = "API for Damien"
+        };
+    }
+}
