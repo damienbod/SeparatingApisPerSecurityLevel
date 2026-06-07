@@ -114,6 +114,8 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/openapi/v1/openapi.json", "v1");
 });
 
+app.MapControllers();
+
 app.Run();
 
 internal sealed class BearerSecuritySchemeTransformer(IAuthenticationSchemeProvider authenticationSchemeProvider) : IOpenApiDocumentTransformer
