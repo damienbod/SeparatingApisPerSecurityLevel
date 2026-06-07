@@ -28,13 +28,13 @@ public class MyApiOneService
         var client = _clientFactory.CreateClient();
 
         var scope = _configuration["MyApiOne:ScopeForAccessToken"];
-        var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new List<string> { scope! });
+        var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync([scope!]);
 
         client.BaseAddress = new Uri(_configuration["MyApiOne:ApiBaseAddress"]!);
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-        var response = await client.GetAsync("api/AzureADUserOne");
+        var response = await client.GetAsync("api/EntraIdUserOne");
         if (response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
