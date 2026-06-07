@@ -28,7 +28,7 @@ public class MyApiOneService
         var client = _clientFactory.CreateClient();
 
         var scope = _configuration["MyApiOne:ScopeForAccessToken"];
-        var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new List<string> { scope! });
+        var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync([scope!]);
 
         client.BaseAddress = new Uri(_configuration["MyApiOne:ApiBaseAddress"]!);
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
