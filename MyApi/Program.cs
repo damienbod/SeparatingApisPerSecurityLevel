@@ -114,6 +114,14 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/openapi/v1/openapi.json", "v1");
 });
 
+// only needed for browser clients
+// app.UseCors("AllowAllOrigins");
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
